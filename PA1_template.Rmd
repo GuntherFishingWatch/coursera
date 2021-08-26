@@ -50,7 +50,7 @@ Here I make a histogram of the steps per day
 ```{r pressure, echo=FALSE}
 
 ggplot(data=summarize, aes(steps_per_day)) + 
-  geom_histogram() + ggtitle("Steps per day") 
+  geom_histogram(fill = "darkblue", color = "white") + ggtitle("Steps per day") + theme_dark()
 
 ```
 
@@ -106,7 +106,7 @@ median_add<- as.integer(median(summarize_with$steps_per_day))
 
 #making a plot with the new data set 
 ggplot(data=summarize_with, aes(steps_per_day)) + 
-  geom_histogram() + ggtitle("Steps per day - with NA") + geom_vline(xintercept=mean_add, colour="red", linetype="solid", size=2) +  geom_vline(xintercept=median_add, colour="blue" , linetype="dotted", size=2) 
+  geom_histogram(fill = "darkblue", color = "white") + ggtitle("Steps per day - with NA") + theme_dark()
 
 ```
 
