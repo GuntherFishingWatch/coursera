@@ -106,7 +106,7 @@ median_add<- as.integer(median(summarize_with$steps_per_day))
 
 #making a plot with the new data set 
 ggplot(data=summarize_with, aes(steps_per_day)) + 
-  geom_histogram(fill = "darkblue", color = "white") + ggtitle("Steps per day - with NA") + theme_dark()
+  geom_histogram(fill = "darkblue", color = "white") + ggtitle("Steps per day - with NA data accounted for") + theme_dark()
 
 ```
 
