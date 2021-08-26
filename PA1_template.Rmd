@@ -50,7 +50,7 @@ Here I make a histogram of the steps per day
 ```{r pressure, echo=FALSE}
 
 ggplot(data=summarize, aes(steps_per_day)) + 
-  geom_histogram() + ggtitle("Steps per day - NA removed") + geom_vline(xintercept=mean, colour="red", linetype="solid", size=2) +  geom_vline(xintercept=median, colour="blue" , linetype="dotted", size=2) 
+  geom_histogram() + ggtitle("Steps per day") 
 
 ```
 
@@ -66,12 +66,10 @@ Q3: What is the average daily activity pattern?
 steps_interveal <- data %>% group_by(interval) %>% summarise(mean_steps = mean(steps, 
     na.rm = TRUE))
 
-p2 <- ggplot(data = steps_interveal, mapping = aes(x = interval, y = mean_steps)) + 
-    geom_line() + scale_x_continuous("Day Interval", breaks = seq(min(steps_interveal$interval), 
+ ggplot(data = steps_interveal, mapping = aes(x = interval, y = mean_steps)) + 
+    geom_line() + scale_x_continuous("daily intervel", breaks = seq(min(steps_interveal$interval), 
     max(steps_interveal$interval), 100)) + scale_y_continuous("Average Number of Steps") + 
     ggtitle("Average Number of Steps Taken by Interval")
-p2
-
 ```
 Starting around 0800 we see the largest peak. The user of the step counter is rarely walking before 5:30 or after 10:00. So we could possibly assume the user is not moving much from 1000 to 0500. 
 
@@ -84,9 +82,10 @@ Q4: Imputing missing values
 #looking at the na data, number
 sum(is.na(data))
 
+#what does the data look like without na
 omit <- na.omit(activity)
 
-#adding data to NA
+#adding data to NA values
 add <- activity
 add$steps[is.na(add$steps)] <- mean(add$steps,na.rm=TRUE)
 add$steps <- as.numeric(add$steps)
@@ -128,9 +127,9 @@ week_data <- add %>% group_by(interval,day) %>% summarise(mean=mean(steps))
 
 # Plot Average steps across weekday/weekend vs 5-min interval Time Series
 ggplot(week_data, aes(x=interval, y=mean, color=day)) + 
-  facet_grid(day~.) +
-  geom_line() + 
-  labs(title="Average number of step compared by weekday vs weekend", y="Average Number of Steps", x="Time series")
-plot.weekday.interval
+  facet_wrap(day~.) +
+  geom_line(color = "darkblue") + 
+  labs(title="Average number of step compared by weekday vs weekend", y="Average Number of Steps", x="Time series") + theme_grey()
+
 ```
 There seem to be differences in between weekday and weekends. During the week the user walks more than during the weekend. The user of the walk monitor also seems to start walking early in the day on average on the weekends. Perhaps this means that the user wakes up for an early morning walk on the weekends but not during the weekdays. However, in both cases the user walks the most from around 8 o'clock to 9. 
